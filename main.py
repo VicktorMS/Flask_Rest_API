@@ -1,30 +1,24 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Api, Resource
 
 app = Flask(__name__)
 api = Api(app)
 
-people = {
-    'Victor': {
-        'age': 20,
-        'gender': 'male'
-    },
-    'Ana Luisa': {
-        'age': 21,
-        'gender': 'female'
-    }
-}
+videos = {}
 
 
-class HelloWorld(Resource):
-    def get(self, name):
-        return {name: people[name]}
+class Video(Resource):
+    def get(self, video_id):
+        return videos[video_id]
+    
+    def put(self, video_id):
+        print(request.form['title'])
+        return 
+        
 
-    def post(self):
-        return {"message": "Hello World"}
+api.add_resource(Video, '/video/<int:video_id>')
 
 
-api.add_resource(HelloWorld, "/hello-world/<string:name>")
 
 if __name__ == '__main__':
     app.run(debug=True)
